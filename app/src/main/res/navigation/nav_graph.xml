@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/songsFragment">
+
+    <fragment
+        android:id="@+id/songsFragment"
+        android:name="com.san.sanmusicplayerv_2.Fragments.SongsFragment"
+        android:label="Songs" />
+
+    <fragment
+        android:id="@+id/playlistsFragment"
+        android:name="com.san.sanmusicplayerv_2.Fragments.PlaylistsFragment"
+        android:label="PlaylistsFragment">
+        <action
+            android:id="@+id/action_playlistsFragment_to_playlistSongsFragment"
+            app:destination="@id/playlistSongsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/playlistSongsFragment"
+        android:name="com.san.sanmusicplayerv_2.Fragments.PlaylistSongFragment"
+        android:label="PlaylistSongsFragment">
+        <argument
+            android:name="playlistName"
+            app:argType="string" />
+        <argument
+            android:name="songIds"
+            app:argType="long[]" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/albumsFragment"
+        android:name="com.san.sanmusicplayerv_2.Fragments.AlbumsFragment"
+        android:label="Albums" />
+
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.san.sanmusicplayerv_2.Fragments.FavouritesFragment"
+        android:label="Favourites" />
+
+    <fragment
+        android:id="@+id/nowPlayingFragment"
+        android:name="com.san.sanmusicplayerv_2.Fragments.NowPlayingFragment"
+        android:label="Now Playing" />
+
+    <fragment
+        android:id="@+id/albumDetailsFragment"
+        android:name="com.san.sanmusicplayerv_2.Fragments.AlbumDetailsFragment"
+        android:label="Album Details">
+        <argument
+            android:name="albumName"
+            app:argType="string" />
+    </fragment>
+
+
+
+</navigation>

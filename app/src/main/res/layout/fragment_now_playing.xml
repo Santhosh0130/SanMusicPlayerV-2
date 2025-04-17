@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nowPlayingFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="#F9F9FB">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <!-- Top Label -->
+        <TextView
+            android:id="@+id/now_playing_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Now playing"
+            android:textColor="#000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/add_to_playlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/playlist_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Album Art with Ring (use FrameLayout to layer image + circular progress) -->
+<!--    <FrameLayout-->
+<!--        android:id="@+id/art_container"-->
+<!--        android:layout_width="260dp"-->
+<!--        android:layout_height="260dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@id/now_playing_label"-->
+<!--        android:layout_marginTop="32dp">-->
+
+<!--        &lt;!&ndash; Custom ProgressBar Ring &ndash;&gt;-->
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progress_ring"-->
+<!--            style="@android:style/Widget.ProgressBar.Horizontal"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:indeterminate="false"-->
+<!--            android:progress="30"-->
+<!--            android:max="100"-->
+<!--            android:progressDrawable="@drawable/custom_ring_progresss"-->
+<!--            android:rotation="-90"-->
+<!--            android:scaleX="-1"/>-->
+
+<!--        &lt;!&ndash; Album Art &ndash;&gt;-->
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:id="@+id/songCover"-->
+<!--            android:layout_width="230dp"-->
+<!--            android:layout_height="230dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/music_note"-->
+<!--            app:shapeAppearanceOverlay="@style/CircleImageView"-->
+<!--            android:layout_gravity="center"-->
+<!--            />-->
+
+<!--    </FrameLayout>-->
+    <FrameLayout
+        android:id="@+id/art_container"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/now_playing_label"
+        android:layout_marginTop="32dp">
+
+        <!-- Circular SeekBar for volume -->
+<!--        <SeekBar-->
+<!--            android:id="@+id/volumeSeekBar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:thumb="@null"-->
+<!--            android:rotation="270"-->
+<!--            android:progressDrawable="@drawable/custom_ring_progresss"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:max="100"-->
+<!--            android:padding="30dp"-->
+<!--            android:progress="50" />-->
+
+
+        <!-- Album Art Image -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/songCover"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/music_note"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+            <ImageButton
+                android:id="@+id/fav_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/favorite_blank"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+
+    <!-- Song Title -->
+    <TextView
+        android:id="@+id/song_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lean On (feat. MØ)"
+        android:maxLines="2"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_below="@id/art_container"
+        android:layout_marginTop="24dp"/>
+
+    <!-- Artist -->
+    <TextView
+        android:id="@+id/artist_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Major Lazer, DJ Snake"
+        android:textSize="16sp"
+        android:maxLines="2"
+        android:gravity="center"
+        android:textColor="#888888"
+        android:layout_below="@id/song_title"
+        android:layout_marginTop="4dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekBar"
+        android:paddingVertical="10dp">
+
+        <ImageButton
+            android:id="@+id/volume_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/volume_down"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/volume_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/volume_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Seekbar -->
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/time_labels"
+        android:max="100"
+        android:progress="25" />
+
+    <!-- Time Labels -->
+
+    <!-- Control Buttons -->
+    <LinearLayout
+        android:id="@+id/time_labels"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/play_controls"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp">
+
+        <TextView
+            android:id="@+id/current_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1:23"
+            android:textColor="#777"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/totalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4:56"
+            android:textColor="#777"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/play_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@null"
+            android:contentDescription="Previous"
+            android:src="@drawable/skip_previous" />
+
+        <ImageButton
+            android:id="@+id/btnPlayPause"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/circle_gradient_background"
+            android:contentDescription="Play"
+            android:src="@drawable/play" />
+
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@null"
+            android:contentDescription="Next"
+            android:src="@drawable/skip_next" />
+    </LinearLayout>
+
+</RelativeLayout>

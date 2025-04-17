@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/songsFragment"
+        android:icon="@drawable/music_note"
+        android:title="Songs" />
+    <item
+        android:id="@+id/favouritesFragment"
+        android:icon="@drawable/favorite"
+        android:title="Favourites" />
+    <item
+        android:id="@+id/albumsFragment"
+        android:icon="@drawable/album"
+        android:title="Albums" />
+    <item
+        android:id="@+id/playlistsFragment"
+        android:icon="@drawable/playlist"
+        android:title="Playlists" />
+</menu>
