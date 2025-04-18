@@ -61,6 +61,8 @@ class NowPlayingFragment : Fragment() {
             binding.songTitle.text = song?.songName
             binding.artistName.text = song?.artistName
             binding.songCover.setImageURI(song?.songCoverImage)
+
+            song?.let { currentSongId = it.id }
         }
 
         viewModel.isPlaying.observe(viewLifecycleOwner) { isPlaying ->
@@ -111,10 +113,12 @@ class NowPlayingFragment : Fragment() {
 
                         val updatedPlaylist = selectedPlaylist.copy(songIds = updatedSongIds)
                         playlistViewModel.updatePlaylist(updatedPlaylist)
+
+                        Toast.makeText(requireContext(), "Added", Toast.LENGTH_SHORT).show()
                     }
                     .show()
             } else {
-                Toast.makeText(requireContext(), "No playlists found ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Create playlist first", Toast.LENGTH_SHORT).show()
             }
         }
 

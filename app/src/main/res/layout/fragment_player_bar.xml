@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="68dp"
+    android:layout_height="70dp"
     android:paddingHorizontal="10dp">
 
     <androidx.cardview.widget.CardView
@@ -11,7 +11,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         app:cardCornerRadius="8dp"
-        android:elevation="6dp"
+        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
@@ -20,6 +20,7 @@
             android:id="@+id/albumArt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@drawable/music_note"
             android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
 
@@ -61,5 +62,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginBottom="4dp"
+        android:progress="0"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_bar_track"
+        android:indeterminate="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

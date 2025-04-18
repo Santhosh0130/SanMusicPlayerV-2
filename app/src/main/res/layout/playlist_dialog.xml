@@ -14,15 +14,4 @@
         android:textSize="16sp"
         android:padding="12dp"
         android:inputType="text"/>
-
-    <!-- Button to confirm adding playlist -->
-<!--    <Button-->
-<!--        android:id="@+id/btnSavePlaylist"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="end"-->
-<!--        android:text="Save"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:backgroundTint="#FF5E62"-->
-<!--        android:layout_marginTop="16dp"/>-->
 </LinearLayout>
