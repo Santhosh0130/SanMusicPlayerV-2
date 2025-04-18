@@ -3,7 +3,9 @@ package com.san.sanmusicplayerv_2.Adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.san.sanmusicplayerv_2.Model.Playlist
 import com.san.sanmusicplayerv_2.R
 import com.san.sanmusicplayerv_2.ViewModel.SongViewModel
@@ -37,12 +39,30 @@ class PlaylistAdapter(private val playlists: List<Playlist>,
 
                 val filteredSongs = songViewModel.songs.value!!.filter { song -> song.id in playlist.songIds }
                 if (playlist.songIds.isNotEmpty()) {
-                    binding.cardCover1.setImageURI(filteredSongs[0].songCoverImage)
-                    binding.cardCover2.setImageURI(filteredSongs[1].songCoverImage)
-                    binding.cardCover3.setImageURI(filteredSongs[2].songCoverImage)
-                    binding.cardCover4.setImageURI(filteredSongs[3].songCoverImage)
+                    if (playlist.songIds.size >= 4){
+                        binding.apply {
+                            cardCover1.setImageURI(filteredSongs[0].songCoverImage)
+                            cardCover2.setImageURI(filteredSongs[1].songCoverImage)
+                            cardCover3.setImageURI(filteredSongs[2].songCoverImage)
+                            cardCover4.setImageURI(filteredSongs[3].songCoverImage)
+
+                            singleSongCover.visibility = View.GONE
+                        }
+                    } else {
+                        binding.apply {
+                            singleSongCover.apply {
+                                visibility = View.VISIBLE
+                                setImageURI(filteredSongs[0].songCoverImage)
+                            }
+                        }
+                    }
                 } else {
-                    binding.coverLayout.setBackgroundResource(R.drawable.music_note)
+                    binding.apply {
+                        singleSongCover.apply {
+                            visibility = View.VISIBLE
+                            setImageResource(R.drawable.music_note)
+                        }
+                    }
                 }
 
                 binding.root.setOnClickListener{

@@ -33,8 +33,13 @@ class PlaylistSongFragment : Fragment() {
         val songIds = arguments?.getLongArray("songIds") ?: return
         val allSongs = songViewModel.songs.value // Fetch all songs
 
+        Toast.makeText(requireContext(), "${songIds} ${allSongs?.size}", Toast.LENGTH_SHORT).show()
+
         // Filter songs based on songIds passed from the playlist
-        val playlistSongs = allSongs!!.filter { song -> song.id in songIds }
+        val playlistSong = allSongs!!.filter { song -> song.id in songIds }
+
+        val playlistSongs = allSongs.filter { song -> song.id in songIds }
+        Toast.makeText(requireContext(), "${playlistSongs.size}", Toast.LENGTH_SHORT).show()
 
         // Set up the adapter
         adapter = SongAdapter { index ->

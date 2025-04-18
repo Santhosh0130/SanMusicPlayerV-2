@@ -14,6 +14,9 @@ class SongViewModel(application: Application) : AndroidViewModel(application) {
     private val _songs = MutableLiveData<List<Song>>()
     val songs: LiveData<List<Song>> = _songs
 
+    private val _trimmedSongs = MutableLiveData<List<Song>>()
+    val trimmedSongs: LiveData<List<Song>> get() = _trimmedSongs
+
     fun loadSongs() {
         val context = getApplication<Application>().applicationContext
         val songList = ArrayList<Song>()
@@ -65,5 +68,9 @@ class SongViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         _songs.postValue(songList)
+    }
+
+    fun setTrimmedSongs() {
+        _trimmedSongs.value = songs.value?.subList((0..songs.value!!.size).random(), 3)
     }
 }

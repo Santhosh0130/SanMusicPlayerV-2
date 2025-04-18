@@ -7,10 +7,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.san.sanmusicplayerv_2.Model.Song
+import com.san.sanmusicplayerv_2.HomeListManager
 
 class MusicViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val context = application.applicationContext
     private var mediaPlayer: MediaPlayer? = null
 
     private val _songs = mutableListOf<Song>()  // Keep this
@@ -28,6 +28,16 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
     private val _isShuffle = MutableLiveData<Boolean>()
     val isShuffle: LiveData<Boolean> get() = _isShuffle
 
+    private val _listOfSongs = MutableLiveData<List<Song>>()
+    val listOfSongs: LiveData<List<Song>> get() = _listOfSongs
+
+    private val _mostPlayedSongs = MutableLiveData<List<Song>>()
+    val mostPlayedSongs: LiveData<List<Song>> get() = _mostPlayedSongs
+
+    private val _filteredSongs = MutableLiveData<List<Song>>()
+    val filteredSongs: LiveData<List<Song>> get() = _filteredSongs
+
+
     fun setSongs(songList: List<Song>, startIndex: Int = 0) {
         _songs.clear()
         _songs.addAll(songList)
@@ -44,6 +54,35 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         _isPlaying.value = true
         _isShuffle.value = false
 
+        val manager = HomeListManager(getApplication())
+        manager.addSong(song.id)
+        manager.increasePlayCount(song.id)
+    }
+
+    fun getSongsByIds(allSongs: List<Song>) {
+        val songMap = allSongs.associateBy { it.id }
+        val manager = HomeListManager(getApplication())
+        val recentIds = manager.getRecentlyPlayed()
+
+        val matchedSongs = recentIds.mapNotNull { songMap.get(it) }
+
+        _listOfSongs.value = matchedSongs
+    }
+
+    fun getMostPlayedSongs(allSongs: List<Song>) {
+        val songMap = allSongs.associateBy { it.id }
+        val manager = HomeListManager(getApplication())
+
+        _mostPlayedSongs.value = manager.getMostPlayed().mapNotNull { (id, _) ->
+            songMap.get(id)
+        }
+    }
+
+    fun filterSong(allSongs: List<Song>, query: String) {
+        _filteredSongs.value = allSongs.filter {
+            it.songName.contains(query, ignoreCase = true) ||
+                    it.artistName.contains(query, ignoreCase = true)
+        }
     }
 
     private fun getRandom(size: Int): Int {
@@ -58,6 +97,9 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         _isPlaying.value = true
         _isShuffle.value = true
 
+        val manager = HomeListManager(getApplication())
+        manager.addSong(song.id)
+        manager.increasePlayCount(song.id)
     }
 
     private fun startSong(song: Song) {

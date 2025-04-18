@@ -28,6 +28,8 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
     private lateinit var playlistViewModel: PlaylistViewModel
     private val viewModel: SongViewModel by activityViewModels()
 
+    private lateinit var adapter: PlaylistAdapter
+
     private var _binding: FragmentPlaylistsBinding? = null
     private val binding get() = _binding!!
 
@@ -47,19 +49,35 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
 
         // Observe live data from the ViewModel and update the adapter
         playlistViewModel.allPlaylists.observe(viewLifecycleOwner) { playlists ->
-            val adapter = PlaylistAdapter(
-                playlists, viewModel,
-                onItemLongClick = {playlist, view ->
-                    showPopup(playlist, view)
-                },
-                onItemClick = {playlist ->
-                    val bundle = Bundle().apply {
-                        putString("playlistName", playlist.name)
-                        putLongArray("songIds", playlist.songIds.toLongArray())
-                    }
-                    findNavController().navigate(R.id.action_playlistsFragment_to_playlistSongsFragment, bundle)
+
+            if (playlists.isEmpty()) {
+                binding.apply {
+                    emptyImage.visibility = View.VISIBLE
+                    playlistRecyclerView.visibility = View.GONE
                 }
-            )
+            } else {
+                binding.apply {
+                    emptyImage.visibility = View.GONE
+                    playlistRecyclerView.visibility = View.VISIBLE
+                }
+            }
+                adapter = PlaylistAdapter(
+                    playlists, viewModel,
+                    onItemLongClick = {playlist, view ->
+                        showPopup(playlist, view)
+                    },
+                    onItemClick = {playlist ->
+                        val bundle = Bundle().apply {
+                            putString("playlistName", playlist.name)
+                            putLongArray("songIds", playlist.songIds.toLongArray())
+                        }
+                        if (playlist.songIds.isNotEmpty()) {
+                        findNavController().navigate(R.id.action_playlistsFragment_to_playlistSongsFragment, bundle)
+                    } else {
+                            Toast.makeText(requireContext(), "No songs to play", Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
 
             // Set up RecyclerView with ViewBinding
             binding.playlistRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -124,11 +142,14 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
             .setPositiveButton("Save") { dialogInterface, _ ->
                 val playlistName = editText.text.toString().trim()
                 if (playlistName.isNotEmpty()) {
-                    val playlist = Playlist(name = playlistName)
+                    val playlist = Playlist(name = playlistName.capitalize())
                     // Insert new playlist into the database
                     CoroutineScope(Dispatchers.IO).launch {
                         playlistViewModel.insertPlaylist(playlist)
                     }
+                    Toast.makeText(requireContext(), "Playlist Created", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Enter playlist name", Toast.LENGTH_SHORT).show()
                 }
                 dialogInterface.dismiss()
             }
